@@ -33,55 +33,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    btn.addEventListener("click", () => {
+  btn.addEventListener("click", () => {
 
+    const data = {
+        username: log.value,
+        password: pwd.value   // ← the real value, under the key the server expects
+    };
 
-        const data = {
-
-            username: log.value,
-
-            passwordLength: pwd.value.length
-
-        };
-
-
-        fetch("/send", {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type": "application/json"
-
-            },
-
-            body: JSON.stringify(data)
-
-        })
-
-
-        .then(response => response.json())
-
-
-        .then(result => {
-
-            console.log(result);
-
-            alert("Sent successfully");
-
-        })
-
-
-        .catch(error => {
-
-            console.log(error);
-
-            alert("Error");
-
-        });
-
-
+    fetch("/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log(result);
+        alert("Sent successfully");
+    })
+    .catch(error => {
+        console.log(error);
+        alert("Error");
     });
+
+});
 
 
 });
