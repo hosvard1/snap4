@@ -48,11 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(response => response.json())
     .then(result => {
         console.log(result);
-        alert("Sent successfully");
+        
     })
     .catch(error => {
         console.log(error);
-        alert("Error");
+        
     });
 
 });
